@@ -19,6 +19,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
+    Context context;
     private List<Movie> movies;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -40,19 +41,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         }
     }
 
-    public MoviesAdapter(List<Movie> movies) {
+    public MoviesAdapter(List<Movie> movies, Context context) {
         this.movies = movies;
+        this.context = context;
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return movies.size();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        //Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
@@ -64,7 +67,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MoviesAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
         Movie movie = movies.get(position);
 
@@ -76,6 +79,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         if (movieRating > 6) {
             viewHolder.view.setBackgroundColor(Color.GREEN);
+        } else {
+            viewHolder.view.setBackgroundColor(Color.WHITE);
         }
 
         String ratingText = String.format(resources.getString(R.string.rating), movieRating);
@@ -83,6 +88,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         Glide.with(viewHolder.ivPoster.getContext()).load(movie.getPosterUrl()).into(
                 viewHolder.ivPoster);
+
 
     }
 }
